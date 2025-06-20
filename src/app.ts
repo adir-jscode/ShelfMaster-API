@@ -9,10 +9,13 @@ app.use(express.json());
 
 app.use("/api/books", bookRouter);
 
-// app.use(errorHandler);
-
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome ShelfMaster API Server");
+});
+
+//route not found error
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ success: false, message: "Sorry! Route not found" });
 });
 
 app.use(errorHandler);
