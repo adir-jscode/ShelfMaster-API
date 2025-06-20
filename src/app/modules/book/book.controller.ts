@@ -63,6 +63,7 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
     const updatedBook = await Book.findByIdAndUpdate(id, payload, {
       new: true,
+      runValidators: true,
     });
     res.status(200).json({
       success: true,
