@@ -1,41 +1,50 @@
-// middlewares/errorHandler.ts
-import { Request, Response, NextFunction } from "express";
+import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
 
-export function errorHandler(
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  let status = 500;
-  let errorResponse = {
-    message: "An error occurred",
-    success: false as const,
-    error: err,
-  };
-
-  // Handle Zod validation errors
+export const errorHandler: ErrorRequestHandler = (
+  err,
+  req,
+  res,
+  next
+): void => {
   if (err instanceof ZodError) {
-    status = 400;
-    errorResponse = {
+    const formattedErrors: Record<string, any> = {};
+    for (const key in err.flatten().fieldErrors) {
+      formattedErrors[key] = {
+        message: err.flatten().fieldErrors[key]?.[0] || "Invalid value",
+        name: "ValidatorError",
+        properties: {
+          message: err.flatten().fieldErrors[key]?.[0] || "Invalid value",
+          type: "validation",
+        },
+        kind: "validation",
+        path: key,
+        value: req.body[key],
+      };
+    }
+
+    res.status(400).json({
       message: "Validation failed",
       success: false,
-      error: err.format(),
-    };
+      error: {
+        name: "ValidationError",
+        errors: formattedErrors,
+      },
+    });
   }
 
-  // Handle Mongoose validation errors
-  else if (err.name === "ValidationError") {
-    status = 400;
-    errorResponse = {
+  if (err.name === "ValidationError") {
+    res.status(400).json({
       message: "Validation failed",
       success: false,
       error: err,
-    };
+    });
   }
 
-  // You can add more custom error handling here if needed
-
-  return res.status(status).json(errorResponse);
-}
+  // Other errors
+  res.status(500).json({
+    message: err.message || "Internal server error",
+    success: false,
+    error: err,
+  });
+};
