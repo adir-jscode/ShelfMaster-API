@@ -40,4 +40,20 @@ const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { createBook, getAllBooks };
+const getBookById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.bookId;
+    console.log(id);
+    const bookbyId = await Book.findById(id);
+    console.log(bookbyId);
+    res.status(200).json({
+      success: true,
+      message: "Book retrieved successfully",
+      data: bookbyId,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createBook, getAllBooks, getBookById };

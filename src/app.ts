@@ -1,13 +1,13 @@
 import express, { Application, Request, Response } from "express";
-import { bookRouter } from "./app/modules/book/book.routes";
 import { errorHandler } from "./app/middlewares/errorHandler";
+import routes from "./app/routes";
 
 const app: Application = express();
 
 require("dotenv").config();
 app.use(express.json());
 
-app.use("/api/books", bookRouter);
+app.use(routes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome ShelfMaster API Server");
