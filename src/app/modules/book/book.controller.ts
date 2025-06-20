@@ -56,4 +56,22 @@ const getBookById = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { createBook, getAllBooks, getBookById };
+//PUT
+const updateBook = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.bookId;
+    const payload = req.body;
+    const updatedBook = await Book.findByIdAndUpdate(id, payload, {
+      new: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Book updated successfully",
+      data: updatedBook,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createBook, getAllBooks, getBookById, updateBook };
