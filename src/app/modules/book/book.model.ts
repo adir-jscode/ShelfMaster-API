@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
-import IBook from "./book.interface";
+import { Model, model, Schema } from "mongoose";
+import IBook, { borrowStaticMethods } from "./book.interface";
 
-const bookSchema = new Schema<IBook>(
+const bookSchema = new Schema<IBook, borrowStaticMethods>(
   {
     title: {
       type: String,
@@ -50,4 +50,18 @@ const bookSchema = new Schema<IBook>(
   }
 );
 
-export const Book = model("Book", bookSchema);
+bookSchema.pre("save", async function (next) {
+  if (this.copies === 0) {
+    return false;
+  } else {
+    return true;
+  }
+});
+bookSchema.static("updateStatus", async function (id) {
+  const book = await Book.findById(id);
+  if (book?.copies === 0) {
+    book.available = false;
+    await book.save();
+  }
+});
+export const Book = model<IBook, borrowStaticMethods>("Book", bookSchema);

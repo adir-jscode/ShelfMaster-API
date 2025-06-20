@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 interface IBook {
   title: string;
   author: string;
@@ -12,6 +14,10 @@ interface IBook {
   description: string;
   copies: number;
   available: boolean;
+}
+
+export interface borrowStaticMethods extends Model<IBook> {
+  updateStatus(id: string): void;
 }
 
 export default IBook;
