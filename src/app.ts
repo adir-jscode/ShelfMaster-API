@@ -18,5 +18,6 @@ app.use((req: Request, res: Response) => {
   res.status(404).json({ success: false, message: "Sorry! Route not found" });
 });
 
+//global error handler
 app.use(errorHandler);
 export default app;

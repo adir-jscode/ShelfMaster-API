@@ -1,4 +1,27 @@
-Verify the book has enough available copies. // pre
-Deduct the requested quantity from the book’s copies. // post
-If copies become 0, update available to false (implement this using a static method or instance method).
-Save the borrow record with all relevant details.
+### **Directory Structure**
+
+```plaintext
+src/
+└── app/
+    ├── middlewares/
+    │   └── errorHandler.ts
+    ├── modules/
+    │   ├── book/
+    │   │   ├── book.controller.ts
+    │   │   ├── book.interface.ts
+    │   │   ├── book.model.ts
+    │   │   ├── book.routes.ts
+    │   │   └── book.schemas.ts
+    │   └── borrow/
+    │       ├── borrow.controller.ts
+    │       ├── borrow.interface.ts
+    │       ├── borrow.model.ts
+    │       └── borrow.routes.ts
+    └── routes/
+        └── index.ts
+    ├── app.ts
+    └── server.ts
+.env
+```
+
+---
