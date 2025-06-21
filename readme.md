@@ -2,7 +2,11 @@
 
 This project provides a RESTful API for managing books and borrow records, with full schema validation, business logic enforcement, aggregation, and filtering capabilities.
 
-🌐 **Live Deployment**: [https://shelfmaster-phi.vercel.app/](https://shelfmaster-phi.vercel.app/)
+---
+
+## 🌐 Live Deployment
+
+🔗 [Click to access the live API](https://shelfmaster-phi.vercel.app/)
 
 ## 🚀 With this API, you can:
 
