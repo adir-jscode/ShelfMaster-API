@@ -5,17 +5,17 @@ const bookSchema = new Schema<IBook, borrowStaticMethods>(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "title is required"],
       trim: true,
     },
     author: {
       type: String,
-      required: true,
+      required: [true, "author is required"],
       trim: true,
     },
     genre: {
       type: String,
-      required: true,
+      required: [true, "genre is required"],
       enum: [
         "FICTION",
         "NON_FICTION",
@@ -27,7 +27,7 @@ const bookSchema = new Schema<IBook, borrowStaticMethods>(
     },
     isbn: {
       type: String,
-      required: true,
+      required: [true, "isbn is required"],
       unique: true,
     },
     description: {
@@ -36,7 +36,7 @@ const bookSchema = new Schema<IBook, borrowStaticMethods>(
     },
     copies: {
       type: Number,
-      required: true,
+      required: [true, "copies is required"],
       min: [0, "Copies must be a positive number"],
     },
     available: {
