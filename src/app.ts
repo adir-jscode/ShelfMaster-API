@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { errorHandler } from "./app/middlewares/errorHandler";
 import routes from "./app/routes";
+import connectDB from "./app/config/db";
 
 const app: Application = express();
 
@@ -20,4 +21,6 @@ app.use((req: Request, res: Response) => {
 
 //global error handler
 app.use(errorHandler);
+
+connectDB();
 export default app;

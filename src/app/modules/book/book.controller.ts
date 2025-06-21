@@ -1,10 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { Book } from "./book.model";
-import { BookCreateSchema } from "./book.schemas";
 
 const createBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const payload = await BookCreateSchema.parseAsync(req.body);
     const book = await Book.create(req.body);
     res.status(201).json({
       success: true,
