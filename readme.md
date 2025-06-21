@@ -1,3 +1,15 @@
+# ShelfMaster-API
+
+This project provides a RESTful API for managing books and borrow records, with full schema validation, business logic enforcement, aggregation, and filtering capabilities.
+
+With this API, you can:
+
+- \*\*Add new books to the library, including details like title, author, genre, and number of copies.
+- \*\*View all books, search by genre, and sort or limit results.
+- \*\*Update or delete books as needed.
+- \*\*Borrow books while making sure there are enough copies available.
+- \*\*See a summary of how many times each book has been borrowed.
+
 ### **Directory Structure**
 
 ```plaintext
