@@ -5,7 +5,6 @@ import connectDB from "./app/config/db";
 
 const app: Application = express();
 
-require("dotenv").config();
 app.use(express.json());
 
 app.use(routes);

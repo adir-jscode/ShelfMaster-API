@@ -17,16 +17,21 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
 const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { filter, sortBy, sort, limit } = req.query;
-    const filterObj: any = {};
-    if (filter) {
+
+    const filterObj: { genre?: string } = {};
+    if (filter && typeof filter === "string") {
       filterObj.genre = filter;
     }
 
-    const sortOrder = sort === "desc" ? -1 : 1;
-    const sortObj: any = {};
-    sortObj[sortBy as string] = sortOrder;
+    const sortObj: { [key: string]: 1 | -1 } = {};
+    if (sortBy && typeof sortBy === "string") {
+      const sortOrder = sort === "desc" ? -1 : 1;
+      sortObj[sortBy] = sortOrder;
+    }
 
-    const books = await Book.find(filterObj).sort(sortObj).limit(Number(limit));
+    const parsedLimit = Number(limit) || 0;
+
+    const books = await Book.find(filterObj).sort(sortObj).limit(parsedLimit);
 
     res.status(200).json({
       success: true,
@@ -77,7 +82,7 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
 const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.bookId;
-    const deleteBook = await Book.findByIdAndDelete(id);
+    await Book.findByIdAndDelete(id);
     res.status(200).json({
       success: true,
       message: "Book deleted successfully",

@@ -1,4 +1,4 @@
-import { Model, model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import IBook, { borrowStaticMethods } from "./book.interface";
 
 const bookSchema = new Schema<IBook, borrowStaticMethods>(
@@ -50,7 +50,7 @@ const bookSchema = new Schema<IBook, borrowStaticMethods>(
   }
 );
 
-bookSchema.pre("save", async function (next) {
+bookSchema.pre("save", async function () {
   if (this.copies === 0) {
     return false;
   } else {

@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import Borrow from "./borrow.model";
-import { Aggregate } from "mongoose";
-import { Book } from "../book/book.model";
 
 const borrowBook = async (req: Request, res: Response, next: NextFunction) => {
   try {

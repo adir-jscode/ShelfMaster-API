@@ -1,4 +1,4 @@
-import mongoose, { model, Model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { IBorrow } from "./borrow.interface";
 import { Book } from "../book/book.model";
 
@@ -34,8 +34,12 @@ borrowSchema.pre("save", async function (next) {
       }
       next();
     }
-  } catch (error: any) {
-    next(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      next(error);
+    } else {
+      next(new Error("Unknown error occurred"));
+    }
   }
 });
 
@@ -49,8 +53,12 @@ borrowSchema.post("save", async function (doc, next) {
         await Book.updateStatus(doc.book.toString());
       }
     }
-  } catch (error: any) {
-    next(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      next(error);
+    } else {
+      next(new Error("Unknown error occurred"));
+    }
   }
 });
 

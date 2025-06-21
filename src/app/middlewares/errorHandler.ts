@@ -1,12 +1,6 @@
-import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import { ZodError } from "zod";
+import { Request, Response } from "express";
 
-export const errorHandler = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const errorHandler = (error: Error, req: Request, res: Response) => {
   if (error) {
     res.status(400).json({
       message: "Validation failed",
