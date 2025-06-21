@@ -6,7 +6,6 @@ import { Book } from "../book/book.model";
 const borrowBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const borrowBook = await Borrow.create(req.body);
-    //Book.updateStatus(borrowBook.id);
     res.status(201).json({
       success: true,
       message: "Book borrowed successfully",

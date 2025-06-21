@@ -1,4 +1,4 @@
-import { model, Model, Schema } from "mongoose";
+import mongoose, { model, Model, Schema } from "mongoose";
 import { IBorrow } from "./borrow.interface";
 import { Book } from "../book/book.model";
 
@@ -19,19 +19,27 @@ borrowSchema.pre("save", async function (next) {
   try {
     const bookId = this.book;
     const availableBook = await Book.findById(bookId);
-    if (!availableBook) {
-      return next(new Error("Book not found"));
+    if (availableBook) {
+      if (this.quantity > availableBook.copies) {
+        const err = new mongoose.Error.ValidationError();
+        err.addError(
+          "quantity",
+          new mongoose.Error.ValidatorError({
+            message: "Not enough copies available",
+            path: "quantity",
+            value: this.quantity,
+          })
+        );
+        return next(err);
+      }
+      next();
     }
-    if (this.quantity > availableBook.copies) {
-      return next(new Error("Not enough copies available"));
-    }
-    next();
   } catch (error: any) {
     next(error);
   }
 });
 
-borrowSchema.post("save", async function (doc) {
+borrowSchema.post("save", async function (doc, next) {
   try {
     const book = await Book.findById(doc.book);
     if (book) {
@@ -41,8 +49,8 @@ borrowSchema.post("save", async function (doc) {
         await Book.updateStatus(doc.book.toString());
       }
     }
-  } catch (error) {
-    console.error("Error updating book copies after borrow:", error);
+  } catch (error: any) {
+    next(error);
   }
 });
 
