@@ -15,7 +15,9 @@ With this API, you can:
 ```plaintext
 src/
 └── app/
-    ├── middlewares/
+    ├── config/
+    │   └── db.ts
+    │── middlewares/
     │   └── errorHandler.ts
     ├── modules/
     │   ├── book/
@@ -23,7 +25,7 @@ src/
     │   │   ├── book.interface.ts
     │   │   ├── book.model.ts
     │   │   ├── book.routes.ts
-    │   │   └── book.schemas.ts
+    │   │
     │   └── borrow/
     │       ├── borrow.controller.ts
     │       ├── borrow.interface.ts
