@@ -1,8 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import Borrow from "./borrow.model";
+import { Book } from "../book/book.model";
 
 const borrowBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { book } = req.body;
+    const isExists = await Book.findById(book);
+    if (!isExists) {
+      res.status(404).json({
+        success: false,
+        message: "Book not found",
+        data: null,
+      });
+    }
     const borrowBook = await Borrow.create(req.body);
     res.status(201).json({
       success: true,

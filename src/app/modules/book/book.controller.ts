@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Book } from "./book.model";
+import { isValidObjectId } from "mongoose";
 
 const createBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -17,22 +18,17 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
 const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { filter, sortBy, sort, limit } = req.query;
-
     const filterObj: { genre?: string } = {};
     if (filter && typeof filter === "string") {
       filterObj.genre = filter;
     }
-
     const sortObj: { [key: string]: 1 | -1 } = {};
     if (sortBy && typeof sortBy === "string") {
       const sortOrder = sort === "desc" ? -1 : 1;
       sortObj[sortBy] = sortOrder;
     }
-
     const parsedLimit = Number(limit) || 0;
-
     const books = await Book.find(filterObj).sort(sortObj).limit(parsedLimit);
-
     res.status(200).json({
       success: true,
       message: "Books retrieved successfully",
@@ -46,9 +42,15 @@ const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
 const getBookById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.bookId;
-    console.log(id);
     const bookbyId = await Book.findById(id);
-    console.log(bookbyId);
+    if (!bookbyId) {
+      res.status(404).json({
+        success: false,
+        message: "Book not found",
+        data: null,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Book retrieved successfully",
@@ -68,6 +70,14 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
       new: true,
       runValidators: true,
     });
+
+    if (!updatedBook) {
+      res.status(404).json({
+        success: false,
+        message: "Book not found",
+        data: null,
+      });
+    }
     res.status(200).json({
       success: true,
       message: "Book updated successfully",
@@ -82,6 +92,14 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
 const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.bookId;
+    const book = await Book.findById(id);
+    if (!book) {
+      res.status(404).json({
+        success: false,
+        message: "Book not found",
+        data: null,
+      });
+    }
     await Book.findByIdAndDelete(id);
     res.status(200).json({
       success: true,
