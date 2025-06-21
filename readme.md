@@ -102,6 +102,17 @@ The ShelfMaster-API provides a RESTful interface for managing books and borrow r
 
 ### 📚 Books
 
+#### Get All Books
+
+- **Endpoint:** `GET /api/books`
+- **Description:** Add a new book to the library.
+  | Query Param | Type | Description |
+  | ----------- | ------ | ---------------------------------- |
+  | `filter` | string | Genre to filter (e.g., SCIENCE) |
+  | `sortBy` | string | Field to sort by (e.g., createdAt) |
+  | `sort` | string | Sort order (`asc` or `desc`) |
+  | `limit` | number | Number of books to return |
+
 #### Create a Book
 
 - **Endpoint:** `POST /api/books`
