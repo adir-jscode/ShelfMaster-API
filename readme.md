@@ -53,6 +53,8 @@ The ShelfMaster-API provides a RESTful interface for managing books and borrow r
 - **Endpoint:** `POST /api/books`
 - **Description:** Add a new book to the library.
 - **Request Body:**
+
+```plaintext
   {
   "title": "The Theory of Everything",
   "author": "Stephen Hawking",
@@ -62,8 +64,11 @@ The ShelfMaster-API provides a RESTful interface for managing books and borrow r
   "copies": 5,
   "available": true
   }
+```
 
 - **Response:**
+
+```plaintext
   {
   "success": true,
   "message": "Book created successfully",
@@ -80,6 +85,7 @@ The ShelfMaster-API provides a RESTful interface for managing books and borrow r
   "updatedAt": "2024-11-19T10:23:45.123Z"
   }
   }
+```
 
 ### **Environment Variables**
 
