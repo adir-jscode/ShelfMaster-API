@@ -29,13 +29,16 @@ const getAllBooks = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { filter, sortBy, sort, limit } = req.query;
         const filterObj = {};
-        if (filter) {
+        if (filter && typeof filter === "string") {
             filterObj.genre = filter;
         }
-        const sortOrder = sort === "desc" ? -1 : 1;
         const sortObj = {};
-        sortObj[sortBy] = sortOrder;
-        const books = yield book_model_1.Book.find(filterObj).sort(sortObj).limit(Number(limit));
+        if (sortBy && typeof sortBy === "string") {
+            const sortOrder = sort === "desc" ? -1 : 1;
+            sortObj[sortBy] = sortOrder;
+        }
+        const parsedLimit = Number(limit) || 0;
+        const books = yield book_model_1.Book.find(filterObj).sort(sortObj).limit(parsedLimit);
         res.status(200).json({
             success: true,
             message: "Books retrieved successfully",

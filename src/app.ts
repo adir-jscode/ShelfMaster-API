@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from "express";
-import { errorHandler } from "./app/middlewares/errorHandler";
 import routes from "./app/routes";
 import connectDB from "./app/config/db";
+import { errorHandler } from "./app/middlewares/errorHandler";
 
 const app: Application = express();
 
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(routes);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("welcome ShelfMaster API Server");
+  res.send("Welcome to 📚ShelfMaster API");
 });
 
 //route not found error
@@ -19,7 +19,9 @@ app.use((req: Request, res: Response) => {
 });
 
 //global error handler
-app.use(errorHandler);
+app.use((err: any, req: Request, res: Response, next: express.NextFunction) => {
+  errorHandler(err, req, res, next);
+});
 
 connectDB();
 export default app;
