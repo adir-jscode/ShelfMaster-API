@@ -2,7 +2,7 @@
 
 This project provides a RESTful API for managing books and borrow records, with full schema validation, business logic enforcement, aggregation, and filtering capabilities.
 
-With this API, you can:
+## 🚀 With this API, you can:
 
 - \*\*Add new books to the library, including details like title, author, genre, and number of copies.
 - \*\*View all books, search by genre, and sort or limit results.
@@ -10,7 +10,7 @@ With this API, you can:
 - \*\*Borrow books while making sure there are enough copies available.
 - \*\*See a summary of how many times each book has been borrowed.
 
-### **Directory Structure**
+## 📁 Directory Structure
 
 ```plaintext
 src/
@@ -40,7 +40,7 @@ src/
 
 ---
 
-### **Environment Variables**
+## ⚙️ Environment Variables
 
 Create a `.env` file in the root of your project directory with the following content:
 
@@ -54,7 +54,7 @@ PORT=5000
 
 ---
 
-### **Getting Started**
+## 🛠️ Getting Started
 
 To get started with this project, follow these steps:
 
@@ -94,7 +94,7 @@ To get started with this project, follow these steps:
 
 ---
 
-## API Endpoints
+## 📖 API Endpoints
 
 The ShelfMaster-API provides a RESTful interface for managing books and borrow records. All endpoints return a consistent response structure with `success`, `message`, and `data` fields.
 
@@ -105,13 +105,35 @@ The ShelfMaster-API provides a RESTful interface for managing books and borrow r
 #### Get All Books
 
 - **Endpoint:** `GET /api/books`
-- **Description:** Add a new book to the library.
-  | Query Param | Type | Description |
-  | ----------- | ------ | ---------------------------------- |
-  | `filter` | string | Genre to filter (e.g., SCIENCE) |
-  | `sortBy` | string | Field to sort by (e.g., createdAt) |
-  | `sort` | string | Sort order (`asc` or `desc`) |
-  | `limit` | number | Number of books to return |
+- **Description:** Retrieve all books from the library. Supports filtering by genre, sorting by fields, and limiting the result count.
+
+| Query Param | Type   | Required | Description                                         |
+| ----------- | ------ | -------- | --------------------------------------------------- |
+| `filter`    | string | No       | Filter books by genre. (e.g., `SCIENCE`, `FICTION`) |
+| `sortBy`    | string | No       | Field to sort by (e.g., `createdAt`, `title`).      |
+| `sort`      | string | No       | Sort order: `asc` or `desc`.                        |
+| `limit`     | number | No       | Limit the number of results returned (default: 10). |
+
+**Example:**
+
+```http
+GET /api/books?filter=SCIENCE&sortBy=createdAt&sort=desc&limit=5
+```
+
+#### Get Book by ID
+
+- **Endpoint:** `GET /api/books/:bookId`
+- **Description:** Retrieve a single book by its unique ID.
+
+| URL Param | Type   | Required | Description                |
+| --------- | ------ | -------- | -------------------------- |
+| `bookId`  | string | Yes      | The unique ID of the book. |
+
+**Example:**
+
+```http
+GET /api/books/64f123abc4567890def12345
+```
 
 #### Create a Book
 
@@ -131,23 +153,126 @@ The ShelfMaster-API provides a RESTful interface for managing books and borrow r
 }
 ```
 
-- **Response:**
+#### Update a Book
+
+- **Endpoint:** `PUT /api/books/:bookId`
+- **Description:** Update details of an existing book by ID.
+
+| URL Param | Type   | Required | Description                  |
+| --------- | ------ | -------- | ---------------------------- |
+| `bookId`  | string | Yes      | The ID of the book to update |
+
+**Example:**
+
+```http
+PUT /api/books/64f123abc4567890def12345
+```
+
+**Request Body Example:**
+
+```json
+{
+  "copies": 10
+}
+```
+
+---
+
+#### Delete a Book
+
+- **Endpoint:** `DELETE /api/books/:bookId`
+- **Description:** Permanently delete a book by its ID.
+
+| URL Param | Type   | Required | Description                  |
+| --------- | ------ | -------- | ---------------------------- |
+| `bookId`  | string | Yes      | The ID of the book to delete |
+
+**Example:**
+
+```http
+DELETE /api/books/64f123abc4567890def12345
+```
+
+---
+
+### 🔄 Borrow
+
+#### Borrow a Book
+
+- **Endpoint:** `POST /api/borrow`
+- **Description:** Borrow copies of a book. Validates availability and adjusts inventory accordingly.
+
+**Request Body:**
+
+```json
+{
+  "book": "64ab3f9e2a4b5c6d7e8f9012",
+  "quantity": 2,
+  "dueDate": "2025-07-18T00:00:00.000Z"
+}
+```
+
+---
+
+#### Borrow Summary
+
+- **Endpoint:** `GET /api/borrow`
+- **Description:** Get a summary of all borrowed books using aggregation. Shows total borrowed quantity and book title + ISBN.
+
+**Response Example:**
 
 ```json
 {
   "success": true,
-  "message": "Book created successfully",
-  "data": {
-    "_id": "64f123abc4567890def12345",
-    "title": "The Theory of Everything",
-    "author": "Stephen Hawking",
-    "genre": "SCIENCE",
-    "isbn": "9780553380163",
-    "description": "An overview of cosmology and black holes.",
-    "copies": 5,
-    "available": true,
-    "createdAt": "2024-11-19T10:23:45.123Z",
-    "updatedAt": "2024-11-19T10:23:45.123Z"
+  "message": "Borrowed books summary retrieved successfully",
+  "data": [
+    {
+      "book": {
+        "title": "The Theory of Everything",
+        "isbn": "9780553380163"
+      },
+      "totalQuantity": 5
+    },
+    {
+      "book": {
+        "title": "1984",
+        "isbn": "9780451524935"
+      },
+      "totalQuantity": 3
+    }
+  ]
+}
+```
+
+---
+
+### Generic Error Response Format
+
+```json
+{
+  "message": "Validation failed",
+  "success": false,
+  "error": {
+    "name": "ValidationError",
+    "errors": {
+      "copies": {
+        "message": "Copies must be a positive number",
+        "kind": "min",
+        "value": -5
+      }
+    }
   }
 }
 ```
+
+---
+
+## Tech Stack
+
+- **Node.js** + **Express**
+- **TypeScript**
+- **MongoDB** with **Mongoose**
+- REST API design
+- Mongoose schema validation, middleware, and static methods
+
+---
