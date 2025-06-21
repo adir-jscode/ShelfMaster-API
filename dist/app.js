@@ -11,7 +11,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(routes_1.default);
 app.get("/", (req, res) => {
-    res.send("welcome ShelfMaster API Server");
+    res.send("Welcome to 📚ShelfMaster API");
 });
 //route not found error
 app.use((req, res) => {

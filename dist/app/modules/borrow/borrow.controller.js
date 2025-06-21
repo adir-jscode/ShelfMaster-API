@@ -14,8 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.borrowController = void 0;
 const borrow_model_1 = __importDefault(require("./borrow.model"));
+const book_model_1 = require("../book/book.model");
 const borrowBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { book } = req.body;
+        const isExists = yield book_model_1.Book.findById(book);
+        if (!isExists) {
+            res.status(404).json({
+                success: false,
+                message: "Book not found",
+                data: null,
+            });
+        }
         const borrowBook = yield borrow_model_1.default.create(req.body);
         res.status(201).json({
             success: true,
