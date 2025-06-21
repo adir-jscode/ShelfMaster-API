@@ -6,7 +6,7 @@ This project provides a RESTful API for managing books and borrow records, with 
 
 ## 🌐 Live Deployment
 
-🔗 [Click to access the live API](https://shelfmaster-phi.vercel.app/)
+🔗 [Click to access the live API](https://sm-api-eight.vercel.app/)
 
 ## 🚀 With this API, you can:
 
