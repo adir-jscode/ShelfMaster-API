@@ -40,6 +40,47 @@ src/
 
 ---
 
+## API Endpoints
+
+The ShelfMaster-API provides a RESTful interface for managing books and borrow records. All endpoints return a consistent response structure with `success`, `message`, and `data` fields.
+
+---
+
+### 📚 Books
+
+#### Create a Book
+
+- **Endpoint:** `POST /api/books`
+- **Description:** Add a new book to the library.
+- **Request Body:**
+  {
+  "title": "The Theory of Everything",
+  "author": "Stephen Hawking",
+  "genre": "SCIENCE",
+  "isbn": "9780553380163",
+  "description": "An overview of cosmology and black holes.",
+  "copies": 5,
+  "available": true
+  }
+
+- **Response:**
+  {
+  "success": true,
+  "message": "Book created successfully",
+  "data": {
+  "\_id": "64f123abc4567890def12345",
+  "title": "The Theory of Everything",
+  "author": "Stephen Hawking",
+  "genre": "SCIENCE",
+  "isbn": "9780553380163",
+  "description": "An overview of cosmology and black holes.",
+  "copies": 5,
+  "available": true,
+  "createdAt": "2024-11-19T10:23:45.123Z",
+  "updatedAt": "2024-11-19T10:23:45.123Z"
+  }
+  }
+
 ### **Environment Variables**
 
 Create a `.env` file in the root of your project directory with the following content:
