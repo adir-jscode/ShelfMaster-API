@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { Book } from "./book.model";
-import { isValidObjectId } from "mongoose";
-
 const createBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const book = await Book.create(req.body);
