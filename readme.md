@@ -6,7 +6,7 @@ This project provides a RESTful API for managing books and borrow records, with 
 
 ## 🌐 Live Deployment
 
-🔗 [Click to access the live API](https://sm-api-v1.vercel.app)
+🔗 [Click to access the live API](https://sm-api-v2.vercel.app/)
 
 ## 🚀 With this API, you can:
 
