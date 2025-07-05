@@ -64,6 +64,9 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.bookId;
     const payload = req.body;
+    if (payload.copies === 0) {
+      payload.available = false;
+    }
     const updatedBook = await Book.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,

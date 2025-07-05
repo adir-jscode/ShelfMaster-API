@@ -2,8 +2,14 @@ import express, { Application, Request, Response } from "express";
 import routes from "./app/routes";
 import connectDB from "./app/config/db";
 import { errorHandler } from "./app/middlewares/errorHandler";
+import cors from "cors";
 
 const app: Application = express();
+app.use(
+  cors({
+    origin: ["https://shelfmaster-redux.vercel.app", "http://localhost:5173/"],
+  })
+);
 
 app.use(express.json());
 
