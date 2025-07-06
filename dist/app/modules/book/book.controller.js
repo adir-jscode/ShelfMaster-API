@@ -77,6 +77,9 @@ const updateBook = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     try {
         const id = req.params.bookId;
         const payload = req.body;
+        if (payload.copies === 0) {
+            payload.available = false;
+        }
         const updatedBook = yield book_model_1.Book.findByIdAndUpdate(id, payload, {
             new: true,
             runValidators: true,

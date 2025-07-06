@@ -5,9 +5,11 @@ import { errorHandler } from "./app/middlewares/errorHandler";
 import cors from "cors";
 
 const app: Application = express();
+
 app.use(
   cors({
-    origin: ["https://shelfmaster-redux.vercel.app", "http://localhost:5173/"],
+    origin: ["http://localhost:5173", "https://shelfmaster-redux.vercel.app"],
+    credentials: true, // optional but useful for cookies
   })
 );
 

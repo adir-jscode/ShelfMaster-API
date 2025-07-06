@@ -7,7 +7,12 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./app/routes"));
 const db_1 = __importDefault(require("./app/config/db"));
 const errorHandler_1 = require("./app/middlewares/errorHandler");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)({
+    origin: ["http://localhost:5173", "https://shelfmaster-redux.vercel.app"],
+    credentials: true, // optional but useful for cookies
+}));
 app.use(express_1.default.json());
 app.use(routes_1.default);
 app.get("/", (req, res) => {
